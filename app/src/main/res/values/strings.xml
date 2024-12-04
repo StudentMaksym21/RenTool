@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Tool Rent Application</string>
+    <string name="welcome_title">Tool Rental</string>
+    <string name="welcome_description">A daily-use app to rent tools.</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="app_logo">App logo</string>
+</resources>
