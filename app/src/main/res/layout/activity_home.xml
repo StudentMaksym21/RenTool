@@ -1,38 +1,183 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
 
-
-    <ImageView
-        android:id="@+id/back_btn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_arrow" />
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
         android:layout_marginTop="100dp"
     android:padding="16dp"
     android:background="@color/white">
 
-    <!-- Home Page Text -->
-    <TextView
-        android:id="@+id/homePageText"
+    <!-- Avatar ImageView -->
+    <ImageView
+        android:id="@+id/avatarImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_avatar_placeholder"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/avatar"/>
+
+    <!-- Upload Button -->
+    <Button
+        android:id="@+id/uploadAvatarButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Page"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
+        android:text="Upload"
+        android:layout_below="@id/avatarImageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="10dp"
+        android:onClick="onUploadAvatarClick"/>
 
+    <!-- Username Layout -->
+    <LinearLayout
+        android:id="@+id/usernameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/uploadAvatarButton"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:hint="Enter your username"
+            android:textSize="18sp"
+            android:background="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="textPersonName"/>
+
+        <Button
+            android:id="@+id/editUsernameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Edit"
+            android:onClick="onEditUsernameClick"/>
+    </LinearLayout>
+
+    <!-- About Me Layout -->
+    <LinearLayout
+        android:id="@+id/aboutMeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/usernameLayout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/aboutMeEditText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="About Me"
+            android:textSize="16sp"
+            android:background="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:scrollbars="vertical"/>
+
+        <Button
+            android:id="@+id/editAboutMeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Edit"
+            android:onClick="onEditAboutMeClick"/>
+    </LinearLayout>
+
+    <!-- Contact Information Layout -->
+    <LinearLayout
+        android:id="@+id/contactInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/aboutMeLayout"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/contactInfoEditText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:hint="Enter contact info"
+            android:textSize="16sp"
+            android:background="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/editContactInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Edit"
+            android:onClick="onEditContactInfoClick"/>
+    </LinearLayout>
+
+    <!-- Rented Tools Layout -->
+    <LinearLayout
+        android:id="@+id/rentedToolsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contactInfoLayout"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Rented Tools"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/rentedToolsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Placeholder for rented tools -->
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/buttonCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calendar"/>
+
+        <Button
+            android:id="@+id/buttonList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:id="@+id/buttonProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"/>
+    </LinearLayout>
 </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
