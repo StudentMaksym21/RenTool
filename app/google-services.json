@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "284005807732",
+    "project_id": "rentool-007",
+    "storage_bucket": "rentool-007.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284005807732:android:c57450423e9d37151c4321",
+        "android_client_info": {
+          "package_name": "com.example.toolrentapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAzAo-1N5EAfFPJD5nfanXufzOh9KpDHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
