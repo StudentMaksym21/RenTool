@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <!-- Search and Filter Options -->
+    <LinearLayout
+        android:id="@+id/searchFilterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentTop="true"
+        android:padding="8dp">
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:hint="Search tools"
+            android:padding="12dp"
+            android:background="@null"
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/filterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Filter"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+    <!-- Add Item Button -->
+    <Button
+        android:id="@+id/addItemButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Your Item"
+        android:layout_below="@id/searchFilterLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"/>
+
+    <!-- Clean Button -->
+    <Button
+        android:id="@+id/cleanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clean"
+        android:layout_below="@id/searchFilterLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"/>
+
+    <!-- Scrollable List of Tools Available for Rent -->
+    <ScrollView
+        android:id="@+id/scrollViewTools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cleanButton"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:contentDescription="List of available tools for rent">
+
+        <LinearLayout
+            android:id="@+id/toolsAvailableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/buttonCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calendar"/>
+
+        <Button
+            android:id="@+id/buttonList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="List"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:id="@+id/buttonProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"/>
+    </LinearLayout>
+</RelativeLayout>
