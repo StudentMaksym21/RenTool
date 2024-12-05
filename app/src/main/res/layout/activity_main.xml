@@ -21,25 +21,14 @@
             android:layout_marginTop="40dp"
             android:contentDescription="@string/app_logo"/>
 
-        <!-- Title TextView -->
-        <TextView
-            android:id="@+id/appTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/welcome_title"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="@color/blue_background"
-            android:layout_below="@id/logo"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"/>
     </RelativeLayout>
 
     <!-- Blue bottom section with text and buttons -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue_background"
+        android:background="@drawable/main_screen_bg"
+        android:backgroundTint="@color/blue_background"
         android:layout_below="@id/whiteSection">
 
         <!-- Description TextView -->
@@ -47,34 +36,49 @@
             android:id="@+id/appDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome_description"
-            android:textSize="18sp"
-            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"/>
+            android:layout_centerVertical="true"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/welcome_description"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
         <!-- Sign In Button -->
         <Button
             android:id="@+id/signInButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
             android:text="@string/sign_in"
+            android:textSize="18sp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
             android:textColor="@color/black"
-            android:background="@color/white"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/white"
             android:layout_below="@id/appDescription"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"/>
+            android:layout_centerHorizontal="true" />
 
         <!-- Sign Up Button -->
         <Button
             android:id="@+id/signUpButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginTop="40dp"
             android:text="@string/sign_up"
+            android:textSize="18sp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
             android:textColor="@color/white"
-            android:background="@color/black"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/black"
             android:layout_below="@id/signInButton"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"/>
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </RelativeLayout>

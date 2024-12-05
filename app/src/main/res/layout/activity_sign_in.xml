@@ -1,72 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/back_button"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_arrow" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/white">
+    android:layout_marginTop="120dp"
+    android:layout_marginBottom="120dp"
+    android:background="@drawable/sign_in_up_bg"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
     <!-- Sign In Page Content -->
     <TextView
         android:id="@+id/signInTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="@string/sign_in"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
         android:layout_marginTop="40dp"/>
 
     <!-- E-mail Input -->
-    <EditText
-        android:id="@+id/emailInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="E-mail"
-        android:inputType="textEmailAddress"
-        android:layout_below="@id/signInTitle"
-        android:layout_marginTop="20dp"/>
+        <EditText
+            android:id="@+id/emailInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/signInTitle"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/white"
+            android:hint="@string/e_mail"
+            android:inputType="textEmailAddress"
+            android:paddingStart="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/black"
+            android:textStyle="normal" />
 
     <!-- Password Input -->
     <EditText
         android:id="@+id/passwordInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/password"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/fields_bg"
+        android:backgroundTint="@color/white"
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:inputType="textPassword"
         android:layout_below="@id/emailInput"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="20dp"/>
 
     <!-- Sign In Button -->
     <Button
         android:id="@+id/signInButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign In"
+        android:text="@string/sign_in"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:background="@drawable/fields_bg"
+        android:backgroundTint="@color/white"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_below="@id/passwordInput"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="30dp"/>
 
     <!-- Text hint for additional sign-in options -->
     <TextView
         android:id="@+id/continueWithText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="or continue with"
-        android:textSize="16sp"
+        android:text="@string/or_continue_with"
+        android:textSize="17sp"
+        android:textStyle="italic|bold"
         android:textColor="@color/black"
         android:layout_below="@id/signInButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="20dp"/>
 
-    <!-- Back Button -->
-    <Button
-        android:id="@+id/backButtonSignIn"
+    <!-- Linear Layout for sign-in options -->
+    <LinearLayout
+        android:id="@+id/logo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/continueWithText"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp">
+
+        <ImageView
+            android:id="@+id/google_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/logo_bg"
+            android:backgroundTint="@color/white"
+            app:srcCompat="@drawable/google_logo"
+            android:contentDescription="@string/google_logo" />
+
+        <ImageView
+            android:id="@+id/apple_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/logo_bg"
+            android:backgroundTint="@color/white"
+            app:srcCompat="@drawable/apple_logo"
+            android:contentDescription="@string/apple_logo" />
+    </LinearLayout>
+
+    <!-- Linear Layout for sign-up options -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_below="@id/continueWithText"
+        android:layout_below="@id/logo_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
-</RelativeLayout>
+        android:layout_marginTop="30dp">
 
+        <TextView
+            android:id="@+id/no_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dont_have_an_account"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:id="@+id/signUpText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sign_up"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="10dp"
+            />
+    </LinearLayout>
+</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
