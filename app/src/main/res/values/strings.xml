@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tool Rent Application</string>
+    <string name="app_name">RenTool</string>
     <string name="avatar">Avatar Image</string>
     <string name="welcome_title">Tool Rental</string>
     <string name="welcome_description">A daily-use app to rent tools.</string>
@@ -16,4 +16,8 @@
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="re_type_password">Re-type Password</string>
     <string name="already_have_an_account">Already have an account?</string>
+    <string name="tool_name">Tool Name</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="add_item">Add Item</string>
 </resources>

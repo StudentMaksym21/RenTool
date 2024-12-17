@@ -1,5 +1,6 @@
 package com.example.toolrentapplication
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +15,7 @@ class AddItemActivity : AppCompatActivity() {
     private lateinit var priceEditText: EditText
     private lateinit var addItemButton: Button
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_item)

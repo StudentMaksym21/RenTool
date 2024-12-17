@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
+    android:layout_marginTop="50dp"
     android:padding="16dp"
     android:background="@color/white">
 
@@ -23,6 +23,9 @@
         android:layout_height="wrap_content"
         android:text="Upload"
         android:layout_below="@id/avatarImageView"
+        android:background="@drawable/fields_bg"
+        android:backgroundTint="@color/blue_background"
+        android:textColor="@color/black"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:onClick="onUploadAvatarClick"/>
@@ -56,6 +59,9 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:text="Edit"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/blue_background"
+            android:textColor="@color/black"
             android:onClick="onEditUsernameClick"/>
     </LinearLayout>
 
@@ -89,6 +95,9 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:text="Edit"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/blue_background"
+            android:textColor="@color/black"
             android:onClick="onEditAboutMeClick"/>
     </LinearLayout>
 
@@ -121,6 +130,9 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:text="Edit"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/blue_background"
+            android:textColor="@color/black"
             android:onClick="onEditContactInfoClick"/>
     </LinearLayout>
 
@@ -138,6 +150,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Current Rented Tools"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginBottom="8dp"/>
 
@@ -164,7 +178,10 @@
             android:id="@+id/buttonCalendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calendar"/>
+            android:text="Calendar"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/blue_background"
+            android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/buttonList"
@@ -172,12 +189,18 @@
             android:layout_height="wrap_content"
             android:text="List"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/blue_background"
+            android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/buttonProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile"/>
+            android:text="Profile"
+            android:background="@drawable/fields_bg"
+            android:backgroundTint="@color/blue_background"
+            android:textColor="@color/black"/>
     </LinearLayout>
 </RelativeLayout>
