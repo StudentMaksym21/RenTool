@@ -46,6 +46,11 @@ class SignInActivity : AppCompatActivity() {
             sEmail = email.text.toString().trim()
             sPassword = password.text.toString().trim()
 
+            if (sEmail.isEmpty() || sPassword.isEmpty()) {
+                Toast.makeText(this, "Please enter email and password.", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             auth.signInWithEmailAndPassword(sEmail, sPassword)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -64,6 +69,7 @@ class SignInActivity : AppCompatActivity() {
                         updateUI(null)
                     }
                 }
+
         }
     }
     private fun updateUI(user: FirebaseUser?) {
