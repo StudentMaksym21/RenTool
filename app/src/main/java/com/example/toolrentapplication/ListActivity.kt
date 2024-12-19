@@ -1,12 +1,16 @@
 package com.example.toolrentapplication
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
@@ -57,8 +61,7 @@ class ListActivity : AppCompatActivity() {
         }
 
         filterButton.setOnClickListener {
-            val query = searchEditText.text.toString()
-            filterTools(query)
+            showFilterDialog()
         }
 
         // Populate tools available for rent
@@ -73,8 +76,9 @@ class ListActivity : AppCompatActivity() {
             val description = data?.getStringExtra("description")
             val price = data?.getStringExtra("price")
             if (name != null && description != null && price != null) {
-                val tool = "$name - $description - $price/day"
+                val tool = "$name - $description - $$price"
                 toolList.add(tool)
+                println("Added tool: $tool") // Log the added tool for debugging
                 updateToolList()
             }
         } else if (requestCode == RENT_TOOL_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -88,6 +92,55 @@ class ListActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    private fun showFilterDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_filter, null)
+        val priceSeekBar: SeekBar = dialogView.findViewById(R.id.priceSeekBar)
+        val priceRangeTextView: TextView = dialogView.findViewById(R.id.priceRangeTextView)
+        val searchButton: Button = dialogView.findViewById(R.id.searchButton)
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        priceSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                priceRangeTextView.text = "Up to $$progress"
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        searchButton.setOnClickListener {
+            val maxPrice = priceSeekBar.progress
+            filterTools(maxPrice)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+
+
+    private fun filterTools(maxPrice: Int) {
+        val priceRegex = Regex("""\$(\d+)""")
+        val filteredList = toolList.filter { tool ->
+            val toolPrice = priceRegex.find(tool)?.groupValues?.get(1)?.toIntOrNull()
+            val isSuitable = toolPrice != null && toolPrice <= maxPrice
+            println("Tool: $tool, Extracted Price: $toolPrice, Suitable: $isSuitable") // Log for debugging
+            isSuitable
+        }
+
+        updateToolList(filteredList)
+    }
+
+
+
+
+
+
 
     private fun addToolItem(name: String, description: String, price: String) {
         val toolItemLayout = LinearLayout(this).apply {
@@ -142,26 +195,6 @@ class ListActivity : AppCompatActivity() {
         toolItemLayout.addView(priceAndButtonLayout)
 
         toolsAvailableLayout.addView(toolItemLayout)
-    }
-
-    private fun filterTools(query: String) {
-        val priceRegex = Regex("""(\d+)/day""")
-        val queryPrice = priceRegex.find(query)?.groupValues?.get(1)?.toIntOrNull()
-        val queryName = query.replace(priceRegex, "").trim()
-
-        val filteredList = toolList.filter { tool ->
-            tool.contains(queryName, ignoreCase = true)
-        }.sortedWith(compareBy {
-            val toolNameMatch = it.contains(queryName, ignoreCase = true)
-            if (queryPrice != null && toolNameMatch) {
-                val toolPrice = priceRegex.find(it)?.groupValues?.get(1)?.toIntOrNull()
-                toolPrice?.let { price -> Math.abs(price - queryPrice) } ?: Int.MAX_VALUE
-            } else {
-                Int.MAX_VALUE
-            }
-        })
-
-        updateToolList(filteredList)
     }
 
     private fun updateToolList(filteredList: List<String> = toolList) {

@@ -86,8 +86,13 @@ class CalendarActivity : AppCompatActivity(), OnMapReadyCallback {
         // Add a marker at a sample location and move the camera
         val sampleLocation = LatLng(51.77700400331281, 19.489334002285585) // Example: Łódź, Poland
         googleMap.addMarker(MarkerOptions().position(sampleLocation).title("Sample Location"))
+
+        val samp2 = LatLng(51.77924765428514, 19.492427241510807) // Example: Warsaw, Poland
+        googleMap.addMarker(MarkerOptions().position(samp2).title(""))
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sampleLocation, 10f))
-    }
+
+}
 
     private fun updateRentedToolList() {
         toolsRentedLayout.removeAllViews()
