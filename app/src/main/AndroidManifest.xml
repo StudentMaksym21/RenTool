@@ -8,6 +8,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ToolRentApplication">
+        <!-- Add the meta-data tag for the Google Maps API key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBwZlx4ZavE4uzGGx8YlJaz5x_4b0NQwwk"/>
+
         <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -24,5 +29,11 @@
         <activity android:name=".RentActivity"/>
 
     </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
 
 </manifest>

@@ -63,4 +63,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-auth:23.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
 }
