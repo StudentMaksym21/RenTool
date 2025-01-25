@@ -1,147 +1,91 @@
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
-    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <!-- Avatar ImageView -->
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatarImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/ic_avatar_placeholder"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:contentDescription="@string/avatar"/>
-
-    <!-- Upload Button -->
-    <Button
-        android:id="@+id/uploadAvatarButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upload"
-        android:layout_below="@id/avatarImageView"
-        android:background="@drawable/fields_bg"
-        android:backgroundTint="@color/blue_background"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:contentDescription="@string/avatar"
+        app:shapeAppearanceOverlay="@style/roundedImageView"
         android:onClick="onUploadAvatarClick"/>
 
-    <!-- Username Layout -->
-    <LinearLayout
-        android:id="@+id/usernameLayout"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/uploadAvatarButton"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_centerHorizontal="true">
+        android:layout_below="@id/avatarImageView"
+        android:layout_marginTop="15dp"
+        android:textSize="24sp"
+        android:hint="username"
+        android:textColor="@color/black"
+        android:inputType="textPersonName"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@null"
+        android:layout_centerHorizontal="true"
+        android:enabled="false"/>
 
-        <EditText
-            android:id="@+id/usernameEditText"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="48dp"
-            android:minHeight="48dp"
-            android:hint="Enter your username"
-            android:textSize="18sp"
-            android:background="@null"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="textPersonName"/>
-
-        <Button
-            android:id="@+id/editUsernameButton"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:text="Edit"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/blue_background"
-            android:textColor="@color/black"
-            android:onClick="onEditUsernameClick"/>
-    </LinearLayout>
-
-    <!-- About Me Layout -->
-    <LinearLayout
-        android:id="@+id/aboutMeLayout"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/emailEditText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/usernameLayout"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_centerHorizontal="true">
+        android:layout_below="@+id/usernameEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:hint="@string/e_mail"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/grey"
+        android:enabled="false"
+        android:background="@null"
+        />
 
-        <EditText
-            android:id="@+id/aboutMeEditText"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="About Me"
-            android:textSize="16sp"
-            android:background="@null"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="textMultiLine"
-            android:minLines="3"
-            android:scrollbars="vertical"/>
-
-        <Button
-            android:id="@+id/editAboutMeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:text="Edit"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/blue_background"
-            android:textColor="@color/black"
-            android:onClick="onEditAboutMeClick"/>
-    </LinearLayout>
-
-    <!-- Contact Information Layout -->
-    <LinearLayout
-        android:id="@+id/contactInfoLayout"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/phoneEditText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/aboutMeLayout"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_centerHorizontal="true">
+        android:layout_below="@+id/emailEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:hint="phone"
+        android:inputType="phone"
+        android:textColorHint="@color/grey"
+        android:textColor="@color/grey"
+        android:enabled="false"
+        android:background="@null"
+        />
 
-        <EditText
-            android:id="@+id/contactInfoEditText"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="48dp"
-            android:minHeight="48dp"
-            android:hint="Enter contact info"
-            android:textSize="16sp"
-            android:background="@null"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:inputType="text"/>
-
-        <Button
-            android:id="@+id/editContactInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:text="Edit"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/blue_background"
-            android:textColor="@color/black"
-            android:onClick="onEditContactInfoClick"/>
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/phoneEditText"
+        android:layout_marginTop="15dp"
+        android:text="Edit Profile"
+        android:textSize="18sp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:textColor="@color/black"
+        />
 
     <!-- Rented Tools Layout -->
     <LinearLayout
         android:id="@+id/rentedToolsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/contactInfoLayout"
+        android:layout_below="@id/editProfileButton"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:layout_centerHorizontal="true">
@@ -164,43 +108,62 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Navigation Bar -->
-    <LinearLayout
-        android:id="@+id/navigationBar"
+
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp"
+        android:layout_above="@id/bottomNavigationBar"
+        android:onClick="onLogoutClick">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp" >
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/logout"
+                android:contentDescription="Image Log out" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:text="Logout"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <LinearLayout
+        android:id="@+id/bottomNavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="20dp">
+        android:orientation="horizontal"
+        >
 
-        <Button
-            android:id="@+id/buttonCalendar"
-            android:layout_width="wrap_content"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Calendar"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/blue_background"
-            android:textColor="@color/black"/>
-
-        <Button
-            android:id="@+id/buttonList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="List"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/blue_background"
-            android:textColor="@color/black"/>
-
-        <Button
-            android:id="@+id/buttonProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/blue_background"
-            android:textColor="@color/black"/>
+            app:menu="@menu/navigation_bar"
+            android:background="@color/transparent"
+            app:labelVisibilityMode="labeled"/>
     </LinearLayout>
+
 </RelativeLayout>

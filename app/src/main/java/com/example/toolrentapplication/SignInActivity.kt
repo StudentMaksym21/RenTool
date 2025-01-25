@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlin.math.sign
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -22,64 +23,80 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+
         auth = FirebaseAuth.getInstance()
+        val email_layout: TextInputLayout = findViewById(R.id.emailInputLayout)
         val email: EditText = findViewById(R.id.emailInput)
+        val password_layout: TextInputLayout = findViewById(R.id.passwordInputLayout)
         val password: EditText = findViewById(R.id.passwordInput)
-        val backButton: ImageView = findViewById(R.id.back_btn)
-        val signInButton: Button = findViewById(R.id.signInButton)
-        val googleButton: ImageView = findViewById(R.id.google_btn)
-        val appleButton: ImageView = findViewById(R.id.apple_btn)
-        val signUpText: TextView = findViewById(R.id.signUpText)
+        val forgotPasswordText: TextView = findViewById(R.id.forgot_password_text)
+        val login_button: Button = findViewById(R.id.loginButton)
+        val sign_up_text: TextView = findViewById(R.id.signUpText)
 
-        backButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
 
-        signUpText.setOnClickListener {
+        sign_up_text.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
 
-        signInButton.setOnClickListener {
+        login_button.setOnClickListener {
             sEmail = email.text.toString().trim()
             sPassword = password.text.toString().trim()
 
-            if (sEmail.isEmpty() || sPassword.isEmpty()) {
-                Toast.makeText(this, "Please enter email and password.", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-
-            auth.signInWithEmailAndPassword(sEmail, sPassword)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("TAG", "signInWithEmail:success")
-                        val user = auth.currentUser
-                        updateUI(user)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("TAG", "signInWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_LONG,
-                        ).show()
-                        updateUI(null)
-                    }
+            when {
+                sEmail.isEmpty() -> {
+                    email_layout.error = "Email is required."
                 }
+                !android.util.Patterns.EMAIL_ADDRESS.matcher(sEmail).matches() -> {
+                    email_layout.error = "Invalid email format."
+                }
+                sPassword.isEmpty() -> {
+                    email_layout.error = null
+                    password_layout.error = "Password is required."
+                }
+                sPassword.length < 8 -> {
+                    email_layout.error = null
+                    password_layout.error = "Password must be at least 8 characters."
+                }
+                else -> {
+                    email_layout.error = null
+                    password_layout.error = null
 
+                    // Attempt to sign in
+                    auth.signInWithEmailAndPassword(sEmail, sPassword)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                // Sign in success
+                                Log.d("TAG", "signInWithEmail:success")
+                                Toast.makeText(
+                                    baseContext,
+                                    "Authentication success.",
+                                    Toast.LENGTH_LONG,
+                                ).show()
+                                val user = auth.currentUser
+                                updateUI(user)
+                            } else {
+                                // Sign in failure
+                                Log.w("TAG", "signInWithEmail:failure", task.exception)
+                                Toast.makeText(
+                                    baseContext,
+                                    "Invalid credentials.",
+                                    Toast.LENGTH_LONG,
+                                ).show()
+                            }
+                        }
+                }
+            }
+        }
+
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+        if (user != null) {
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
         }
     }
-    private fun updateUI(user: FirebaseUser?) {
-        val intent = Intent(this, HomeActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        finish()
-    }
-
-    private fun reload() {
-    }
 }
-
