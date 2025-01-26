@@ -1,5 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.toolrentapplication">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -8,32 +14,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ToolRentApplication">
+        <activity
+            android:name=".MapsActivity"
+            android:exported="false" />
         <!-- Add the meta-data tag for the Google Maps API key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBwZlx4ZavE4uzGGx8YlJaz5x_4b0NQwwk"/>
+            android:value="AIzaSyBwZlx4ZavE4uzGGx8YlJaz5x_4b0NQwwk" />
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignInActivity" />
+        <activity android:name=".MainActivity"
+            android:exported="false"/>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".ListActivity" />
-        <activity android:name=".AddItemActivity"/>
-        <activity android:name=".RentActivity"/>
-
+        <activity android:name=".AddItemActivity" />
+        <activity android:name=".RentActivity" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-
 
 </manifest>

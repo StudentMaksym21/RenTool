@@ -1,5 +1,4 @@
 <resources>
-    <color name="blue_background">#3A9FF3</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="purple_500">#6200EE</color>
@@ -8,6 +7,12 @@
     <color name="teal_700">#018786</color>
     <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorOnSecondary">#000000</color>
+    <color name="blue">#1d8fc3</color>
+    <color name="blue_background">#3A9FF3</color>
+    <color name="red">#FF0000</color>
+    <color name="grey">#808080</color>"
+    <color name="light_grey">#E0E0E0</color>"
+    <color name="transparent">#00000000</color>"
 </resources>
 
 

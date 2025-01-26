@@ -20,4 +20,27 @@
     <string name="description">Description</string>
     <string name="price">Price</string>
     <string name="add_item">Add Item</string>
+    <string name="default_web_client_id">284005807732-l0lris65fkf0h1sjua9jqglfing5d6de.apps.googleusercontent.com</string>
+    <string name="logo">logo</string>
+    <string name="login">Login</string>
+    <string name="to_your_account">to your account</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="create">Create</string>
+    <string name="your_account">your account</string>
+    <string name="signup">Signup</string>
+    <string name="tool_price">Tool Price</string>
+    <string name="calendar">Calendar</string>
+    <string name="zoom_in">Zoom In</string>
+    <string name="zoom_out">Zoom Out</string>
+    <string name="reset">Reset</string>
+    <string name="tools_rented">Tools Rented</string>
+    <string name="logout">Logout</string>
+    <string name="current_rented_tools">Current Rented Tools</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="phone">phone</string>
+    <string name="username">username</string>
+    <string name="search_tools">Search tools</string>
+    <string name="filter">Filter</string>
+    <string name="book">Book</string>
+    <string name="search">Search</string>
 </resources>

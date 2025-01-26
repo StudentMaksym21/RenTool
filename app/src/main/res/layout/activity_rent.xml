@@ -18,10 +18,15 @@
         android:layout_marginTop="16dp"
         android:textSize="18sp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bookButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Book"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="@string/book"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         android:layout_marginTop="24dp"/>
 </LinearLayout>

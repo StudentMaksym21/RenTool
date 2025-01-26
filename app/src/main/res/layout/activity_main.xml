@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_screen_bg"
-        android:backgroundTint="@color/blue_background"
+        android:backgroundTint="@color/blue"
         android:layout_below="@id/whiteSection">
 
         <!-- Description TextView -->

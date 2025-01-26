@@ -1,80 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
-        android:layout_marginBottom="120dp"
-        android:background="@drawable/sign_in_up_bg"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        >
 
-        <EditText
-            android:id="@+id/nameEditText"
+        <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/tool_name"
-            android:textColorHint="@color/black"
-            android:layout_marginTop="30dp"
-            android:padding="15dp"
+            app:title="Add Item"
+            app:titleCentered="true"
+            />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Tool Name Input-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/toolNameInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBar"
+        style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/tool_name"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/toolNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="text"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/white"
             />
 
-        <EditText
-            android:id="@+id/descriptionEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nameEditText"
-            android:hint="@string/description"
-            android:textColorHint="@color/black"
-            android:padding="15dp"
-            android:layout_marginTop="20dp"
-            android:inputType="textMultiLine"
-            android:lines="3"
-            android:minLines="3"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/white"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/priceEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/descriptionEditText"
-            android:hint="@string/price"
-            android:textColorHint="@color/black"
-            android:padding="15dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/white"
-            android:inputType="numberDecimal"/>
+    <!-- Tool Description Input-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/toolDescInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/toolNameInputLayout"
+        style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/description"
+        >
 
-        <Button
-            android:id="@+id/addItemButton"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/toolDescInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/priceEditText"
-            android:text="@string/add_item"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/white"
+            android:layout_height="match_parent"
+            android:inputType="text"
             />
 
-    </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Tool Price Input-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/toolPriceInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolDescInputLayout"
+        style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/tool_price"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/toolPriceInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addItemButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolPriceInputLayout"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="@string/add_item"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/tools"
+        />
+</RelativeLayout>

@@ -3,6 +3,8 @@ package com.example.toolrentapplication
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Button
@@ -13,12 +15,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.search.SearchBar
 
+@Suppress("DEPRECATION")
 class ListActivity : AppCompatActivity() {
 
     private lateinit var toolsAvailableLayout: LinearLayout
     private val ADD_ITEM_REQUEST_CODE = 1
     private val RENT_TOOL_REQUEST_CODE = 2
+
+    private lateinit var bottomNavigationBar: BottomNavigationView
 
     companion object {
         val toolList = mutableListOf<String>()
@@ -29,25 +36,47 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        val buttonCalendar: Button = findViewById(R.id.buttonCalendar)
-        val buttonList: Button = findViewById(R.id.buttonList)
-        val buttonProfile: Button = findViewById(R.id.buttonProfile)
         val addItemButton: Button = findViewById(R.id.addItemButton)
         val cleanButton: Button = findViewById(R.id.cleanButton)
         val filterButton: Button = findViewById(R.id.filterButton)
         val searchEditText: EditText = findViewById(R.id.searchEditText)
+
+        //val searchBar: SearchBar = findViewById(R.id.searchBar)
+        //val searchBarEditText: EditText = searchBar.findViewById(com.google.android.material.R.id.search_src_text)
+
         toolsAvailableLayout = findViewById(R.id.toolsAvailableLayout)
 
-        buttonCalendar.setOnClickListener {
-            startActivity(Intent(this, CalendarActivity::class.java))
-        }
+        bottomNavigationBar = findViewById(R.id.bottom_navigation)
+        bottomNavigationBar.selectedItemId = R.id.item_3
 
-        buttonList.setOnClickListener {
-            // Already on List page
-        }
-
-        buttonProfile.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+        bottomNavigationBar.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.item_1 -> {
+                    // Navigate to HomeActivity
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_2 -> {
+                    // Navigate to MapsActivity
+                    val intent = Intent(this, MapsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_3 -> {
+                    // Navigate to ListActivity
+                    val intent = Intent(this, ListActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_4 -> {
+                    // Navigate to Calendar Activity
+                    val intent = Intent(this, CalendarActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
         }
 
         addItemButton.setOnClickListener {

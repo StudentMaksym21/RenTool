@@ -1,6 +1,5 @@
 package com.example.toolrentapplication
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,51 +9,83 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat  // <- This is the import statement you need
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity() {
 
 
-    private lateinit var usernameEditText: EditText
-    private lateinit var aboutMeEditText: EditText
-    private lateinit var contactInfoEditText: EditText
-    private lateinit var editUsernameButton: Button
-    private lateinit var editAboutMeButton: Button
-    private lateinit var editContactInfoButton: Button
     private lateinit var avatarImageView: ImageView
     private lateinit var rentedToolsList: LinearLayout
-  
+
+    private lateinit var usernameEditText: EditText
+    private lateinit var emailEditText: EditText
+    private lateinit var phoneEditText: EditText
+    private lateinit var editProfileButton: MaterialButton
+    private var isEditing = false
+    private lateinit var bottomNavigationBar: BottomNavigationView
+    private lateinit var emailRegex : Regex
+    private lateinit var phoneRegex : Regex
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        usernameEditText = findViewById(R.id.usernameEditText)
-        aboutMeEditText = findViewById(R.id.aboutMeEditText)
-        contactInfoEditText = findViewById(R.id.contactInfoEditText)
-        editUsernameButton = findViewById(R.id.editUsernameButton)
-        editAboutMeButton = findViewById(R.id.editAboutMeButton)
-        editContactInfoButton = findViewById(R.id.editContactInfoButton)
+
         avatarImageView = findViewById(R.id.avatarImageView)
         rentedToolsList = findViewById(R.id.rentedToolsList)
 
-        val buttonCalendar: Button = findViewById(R.id.buttonCalendar)
-        val buttonList: Button = findViewById(R.id.buttonList)
-        val buttonProfile: Button = findViewById(R.id.buttonProfile)
+        usernameEditText = findViewById(R.id.usernameEditText)
+        emailEditText = findViewById(R.id.emailEditText)
+        phoneEditText = findViewById(R.id.phoneEditText)
+        editProfileButton = findViewById(R.id.editProfileButton)
+        phoneRegex = Regex("^\\+48 \\d{3} \\d{3} \\d{3}$")
+        emailRegex = Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")
+        bottomNavigationBar = findViewById(R.id.bottom_navigation)
 
-        buttonCalendar.setOnClickListener {
-            startActivity(Intent(this, CalendarActivity::class.java))
+        bottomNavigationBar.selectedItemId = R.id.item_1
+
+        editProfileButton.setOnClickListener{
+            profileEdit()
         }
 
-        buttonList.setOnClickListener {
-            startActivity(Intent(this, ListActivity::class.java))
+        bottomNavigationBar.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.item_1 -> {
+                    // Navigate to HomeActivity
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_2 -> {
+                    // Navigate to MapsActivity
+                    val intent = Intent(this, MapsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_3 -> {
+                    // Navigate to ListActivity
+                    val intent = Intent(this, ListActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_4 -> {
+                    // Navigate to Calendar Activity
+                    val intent = Intent(this, CalendarActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
         }
 
-        buttonProfile.setOnClickListener {
-            // Already on Profile page (Home)
-        }
 
         // Populate rented tools with sample data
         updateRentedTools()
@@ -62,32 +93,75 @@ class HomeActivity : AppCompatActivity() {
 
     fun onUploadAvatarClick(view: View) {
         // Code to handle avatar upload
+        //code to test the function
+        Toast.makeText(this, "Avatar uploaded!", Toast.LENGTH_SHORT).show()
     }
 
-    fun onEditUsernameClick(view: View) {
-        toggleEditMode(usernameEditText, editUsernameButton)
-    }
+    fun profileEdit() {
+        if (isEditing) {
+            // Save mode
+            val username = usernameEditText.text.toString().trim()
+            val email = emailEditText.text.toString().trim()
+            val phone = phoneEditText.text.toString().trim()
 
-    fun onEditAboutMeClick(view: View) {
-        toggleEditMode(aboutMeEditText, editAboutMeButton)
-    }
+            if (username.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(this, "All fields must be filled out.", Toast.LENGTH_SHORT).show()
+            } else if (username.length < 6) {
+                // Check if username is at least 6 characters long
+                Toast.makeText(this, "Username must be at least 6 characters long.", Toast.LENGTH_SHORT).show()
+            } else if (!email.matches(emailRegex)) {
+                // Check if email format is valid
+                Toast.makeText(this, "Invalid email format.", Toast.LENGTH_SHORT).show()
+            }else if (!phone.matches(phoneRegex)) {
+                // Check if phone format is valid
+                Toast.makeText(this, "Phone number must be in the format +48 xxx xxx xxx.", Toast.LENGTH_SHORT).show()
+            }  else {
+                // Save the changes
+                usernameEditText.isEnabled = false
+                emailEditText.isEnabled = false
+                phoneEditText.isEnabled = false
 
-    fun onEditContactInfoClick(view: View) {
-        toggleEditMode(contactInfoEditText, editContactInfoButton)
-    }
+                editProfileButton.text = "Edit Profile"
+                isEditing = false
 
-    private fun toggleEditMode(editText: EditText, button: Button) {
-        if (button.text == "Edit") {
-            editText.isFocusableInTouchMode = true
-            editText.isFocusable = true
-            editText.requestFocus()
-            button.text = "Save"
+                //setting back to normal colors
+                usernameEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
+                emailEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
+                phoneEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
+
+                //setting back to normal colors
+                usernameEditText.setTextColor(ContextCompat.getColor(this, R.color.black))
+                emailEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
+                phoneEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
+
+                // Show success message
+                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+            }
         } else {
-            editText.isFocusable = false
-            editText.isFocusableInTouchMode = false
-            button.text = "Edit"
+            // Enable editing
+            usernameEditText.isEnabled = true
+            emailEditText.isEnabled = true
+            phoneEditText.isEnabled = true
+
+            //setting background colors
+            usernameEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
+            emailEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
+            phoneEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
+
+            //editing hint color
+            usernameEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
+            emailEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
+            phoneEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
+
+            usernameEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
+            emailEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
+            phoneEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
+
+            editProfileButton.text = "Save"
+            isEditing = true
         }
     }
+
 
     private fun updateRentedTools() {
         rentedToolsList.removeAllViews()
@@ -135,5 +209,11 @@ class HomeActivity : AppCompatActivity() {
                 rentedToolsList.addView(toolItemLayout)
             }
         }
+    }
+
+    fun onLogoutClick(view: View) {
+        val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
