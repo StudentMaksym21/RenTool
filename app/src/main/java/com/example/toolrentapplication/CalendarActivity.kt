@@ -14,36 +14,58 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
+@Suppress("DEPRECATION")
 class CalendarActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var calendarView: CalendarView
     private lateinit var toolsRentedLayout: LinearLayout
     private lateinit var googleMap: GoogleMap
+    private lateinit var bottomNavigationBar: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
 
-        val buttonCalendar: Button = findViewById(R.id.buttonCalendar)
-        val buttonList: Button = findViewById(R.id.buttonList)
-        val buttonProfile: Button = findViewById(R.id.buttonProfile)
         val buttonZoomIn: Button = findViewById(R.id.buttonZoomIn)
         val buttonZoomOut: Button = findViewById(R.id.buttonZoomOut)
         val buttonReset: Button = findViewById(R.id.buttonReset)
         calendarView = findViewById(R.id.calendarView)
         toolsRentedLayout = findViewById(R.id.toolsRentedLayout)
 
-        buttonCalendar.setOnClickListener {
-            // Already on Calendar page
-        }
+        bottomNavigationBar = findViewById(R.id.bottom_navigation)
 
-        buttonList.setOnClickListener {
-            startActivity(Intent(this, ListActivity::class.java))
-        }
+        bottomNavigationBar.selectedItemId = R.id.item_4
 
-        buttonProfile.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+        bottomNavigationBar.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.item_1 -> {
+                    // Navigate to HomeActivity
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_2 -> {
+                    // Navigate to MapsActivity
+                    val intent = Intent(this, MapsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_3 -> {
+                    // Navigate to ListActivity
+                    val intent = Intent(this, ListActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.item_4 -> {
+                    // Navigate to Calendar Activity
+                    val intent = Intent(this, CalendarActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
         }
 
         // Set a listener to handle date selection

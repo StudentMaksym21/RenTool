@@ -50,6 +50,8 @@ class HomeActivity : AppCompatActivity() {
         emailRegex = Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
 
+        bottomNavigationBar.selectedItemId = R.id.item_1
+
         editProfileButton.setOnClickListener{
             profileEdit()
         }
