@@ -3,6 +3,8 @@ package com.example.toolrentapplication
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Button
@@ -14,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.search.SearchBar
 
 @Suppress("DEPRECATION")
 class ListActivity : AppCompatActivity() {
@@ -37,10 +40,13 @@ class ListActivity : AppCompatActivity() {
         val cleanButton: Button = findViewById(R.id.cleanButton)
         val filterButton: Button = findViewById(R.id.filterButton)
         val searchEditText: EditText = findViewById(R.id.searchEditText)
+
+        //val searchBar: SearchBar = findViewById(R.id.searchBar)
+        //val searchBarEditText: EditText = searchBar.findViewById(com.google.android.material.R.id.search_src_text)
+
         toolsAvailableLayout = findViewById(R.id.toolsAvailableLayout)
 
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
-
         bottomNavigationBar.selectedItemId = R.id.item_3
 
         bottomNavigationBar.setOnNavigationItemSelectedListener { menuItem ->

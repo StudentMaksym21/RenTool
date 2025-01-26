@@ -7,12 +7,17 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 
 class AddItemActivity : AppCompatActivity() {
 
-    private lateinit var nameEditText: EditText
-    private lateinit var descriptionEditText: EditText
-    private lateinit var priceEditText: EditText
+    private lateinit var toolNameInputLayout: TextInputLayout
+    private lateinit var toolDescInputLayout: TextInputLayout
+    private lateinit var toolPriceInputLayout: TextInputLayout
+
+    private lateinit var toolName: EditText
+    private lateinit var toolDesc: EditText
+    private lateinit var toolPrice: EditText
     private lateinit var addItemButton: Button
 
     @SuppressLint("MissingInflatedId")
@@ -20,22 +25,37 @@ class AddItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_item)
 
-        nameEditText = findViewById(R.id.nameEditText)
-        descriptionEditText = findViewById(R.id.descriptionEditText)
-        priceEditText = findViewById(R.id.priceEditText)
+        toolNameInputLayout = findViewById(R.id.toolNameInputLayout)
+        toolDescInputLayout = findViewById(R.id.toolDescInputLayout)
+        toolPriceInputLayout = findViewById(R.id.toolPriceInputLayout)
+
+        toolName = findViewById(R.id.toolNameInput)
+        toolDesc = findViewById(R.id.toolDescInput)
+        toolPrice = findViewById(R.id.toolPriceInput)
         addItemButton = findViewById(R.id.addItemButton)
 
         addItemButton.setOnClickListener {
-            val name = nameEditText.text.toString()
-            val description = descriptionEditText.text.toString()
-            val price = priceEditText.text.toString()
+            val name = toolName.text.toString()
+            val description = toolDesc.text.toString()
+            val price = toolPrice.text.toString()
 
-            val resultIntent = Intent()
-            resultIntent.putExtra("name", name)
-            resultIntent.putExtra("description", description)
-            resultIntent.putExtra("price", price)
-            setResult(Activity.RESULT_OK, resultIntent)
-            finish() // Close AddItemActivity
+            if (name.isEmpty()) {
+                toolNameInputLayout.error = "Please enter the tool name"
+                toolName.requestFocus()
+            } else if (description.isEmpty()) {
+                toolDescInputLayout.error = "Please enter the description"
+                toolDesc.requestFocus()
+            } else if (price.isEmpty()) {
+                toolPriceInputLayout.error = "Please enter the price"
+                toolPrice.requestFocus()
+            } else {
+                val resultIntent = Intent()
+                resultIntent.putExtra("name", name)
+                resultIntent.putExtra("description", description)
+                resultIntent.putExtra("price", price)
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish() // Close AddItemActivity
+            }
         }
     }
 }

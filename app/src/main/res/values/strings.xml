@@ -28,4 +28,19 @@
     <string name="create">Create</string>
     <string name="your_account">your account</string>
     <string name="signup">Signup</string>
+    <string name="tool_price">Tool Price</string>
+    <string name="calendar">Calendar</string>
+    <string name="zoom_in">Zoom In</string>
+    <string name="zoom_out">Zoom Out</string>
+    <string name="reset">Reset</string>
+    <string name="tools_rented">Tools Rented</string>
+    <string name="logout">Logout</string>
+    <string name="current_rented_tools">Current Rented Tools</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="phone">phone</string>
+    <string name="username">username</string>
+    <string name="search_tools">Search tools</string>
+    <string name="filter">Filter</string>
+    <string name="book">Book</string>
+    <string name="search">Search</string>
 </resources>

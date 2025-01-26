@@ -35,9 +35,9 @@ class CalendarActivity : AppCompatActivity(), OnMapReadyCallback {
         toolsRentedLayout = findViewById(R.id.toolsRentedLayout)
 
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
-
         bottomNavigationBar.selectedItemId = R.id.item_4
 
+        // Set up bottom navigation bar
         bottomNavigationBar.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.item_1 -> {
@@ -114,7 +114,7 @@ class CalendarActivity : AppCompatActivity(), OnMapReadyCallback {
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sampleLocation, 10f))
 
-}
+    }
 
     private fun updateRentedToolList() {
         toolsRentedLayout.removeAllViews()

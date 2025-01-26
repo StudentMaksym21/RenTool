@@ -2,7 +2,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
     android:background="@color/white">
 
     <!-- Calendar Page Text -->
@@ -10,7 +9,7 @@
         android:id="@+id/calendarPageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calendar"
+        android:text="@string/calendar"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -57,21 +56,21 @@
                     android:id="@+id/buttonZoomIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zoom In"
+                    android:text="@string/zoom_in"
                     android:layout_margin="4dp"/>
 
                 <Button
                     android:id="@+id/buttonZoomOut"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zoom Out"
+                    android:text="@string/zoom_out"
                     android:layout_margin="4dp"/>
 
                 <Button
                     android:id="@+id/buttonReset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reset"
+                    android:text="@string/reset"
                     android:layout_margin="4dp"/>
             </LinearLayout>
 
@@ -87,7 +86,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tools Rented"
+                    android:text="@string/tools_rented"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>

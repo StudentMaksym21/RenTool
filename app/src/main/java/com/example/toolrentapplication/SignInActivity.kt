@@ -46,17 +46,21 @@ class SignInActivity : AppCompatActivity() {
             when {
                 sEmail.isEmpty() -> {
                     email_layout.error = "Email is required."
+                    email.requestFocus()
                 }
                 !android.util.Patterns.EMAIL_ADDRESS.matcher(sEmail).matches() -> {
                     email_layout.error = "Invalid email format."
+                    email.requestFocus()
                 }
                 sPassword.isEmpty() -> {
                     email_layout.error = null
                     password_layout.error = "Password is required."
+                    password.requestFocus()
                 }
                 sPassword.length < 8 -> {
                     email_layout.error = null
                     password_layout.error = "Password must be at least 8 characters."
+                    password.requestFocus()
                 }
                 else -> {
                     email_layout.error = null

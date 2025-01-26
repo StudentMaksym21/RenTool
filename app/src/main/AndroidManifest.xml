@@ -23,7 +23,7 @@
             android:value="AIzaSyBwZlx4ZavE4uzGGx8YlJaz5x_4b0NQwwk" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignInActivity" />
+        <activity android:name=".MainActivity"
+            android:exported="false"/>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".CalendarActivity" />

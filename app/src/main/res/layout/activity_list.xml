@@ -1,19 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
     android:background="@color/white">
+
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:hint="@string/search_tools"
+
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/filterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchBar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="@string/filter"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        />
 
     <!-- Search and Filter Options -->
     <LinearLayout
         android:id="@+id/searchFilterLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/filterButton"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentTop="true"
         android:padding="8dp">
 
         <EditText
@@ -22,39 +43,16 @@
             android:layout_weight="1"
             android:layout_height="48dp"
             android:minHeight="48dp"
-            android:hint="Search tools"
+            android:hint="Search Tools functionality and remove this"
             android:textColorHint="@color/black"
             android:padding="12dp"
             android:background="@drawable/fields_bg"
             android:backgroundTint="@color/white"
             android:inputType="text"/>
 
-        <Button
-            android:id="@+id/filterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:text="Filter"
-            android:background="@drawable/fields_bg"
-            android:backgroundTint="@color/blue"
-            android:textColor="@color/black"
-            android:layout_marginStart="8dp"/>
     </LinearLayout>
 
-    <!-- Add Item Button -->
-    <Button
-        android:id="@+id/addItemButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Your Item"
-        android:background="@drawable/fields_bg"
-        android:backgroundTint="@color/blue"
-        android:textColor="@color/black"
-        android:layout_below="@id/searchFilterLayout"
-        android:layout_alignParentEnd="true"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"/>
+
 
     <!-- Clean Button -->
     <Button
@@ -88,6 +86,20 @@
             android:orientation="vertical">
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/addItemButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNavigationBar"
+        style="Widget.Material3.ExtendedFloatingActionButton.Primary"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="@string/add_item"
+        app:icon="@drawable/add_icon"
+        android:backgroundTint="@color/light_grey"
+        />
 
     <!-- Bottom Navigation Bar -->
     <LinearLayout

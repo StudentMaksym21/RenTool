@@ -23,7 +23,7 @@
         android:layout_below="@id/avatarImageView"
         android:layout_marginTop="15dp"
         android:textSize="24sp"
-        android:hint="username"
+        android:hint="@string/username"
         android:textColor="@color/black"
         android:inputType="textPersonName"
         android:textStyle="bold"
@@ -57,7 +57,7 @@
         android:layout_marginTop="5dp"
         android:textSize="20sp"
         android:textAlignment="center"
-        android:hint="phone"
+        android:hint="@string/phone"
         android:inputType="phone"
         android:textColorHint="@color/grey"
         android:textColor="@color/grey"
@@ -72,7 +72,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/phoneEditText"
         android:layout_marginTop="15dp"
-        android:text="Edit Profile"
+        android:text="@string/edit_profile"
         android:textSize="18sp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
@@ -93,7 +93,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current Rented Tools"
+            android:text="@string/current_rented_tools"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -131,15 +131,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/logout"
-                android:contentDescription="Image Log out" />
+                android:src="@drawable/logout" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingStart="16dp"
-                android:text="Logout"
+                android:text="@string/logout"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
