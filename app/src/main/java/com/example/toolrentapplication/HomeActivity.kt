@@ -110,13 +110,31 @@ class HomeActivity : AppCompatActivity() {
             .setTitle("Add Credit")
 
         val alertDialog = builder.show()
+
+        val cardNumberEditText = dialogView.findViewById<EditText>(R.id.cardNumberEditText)
+        val cardHolderNameEditText = dialogView.findViewById<EditText>(R.id.cardHolderNameEditText)
+        val expirationDateEditText = dialogView.findViewById<EditText>(R.id.expirationDateEditText)
+        val amountEditText = dialogView.findViewById<EditText>(R.id.amountEditText)
         val addCreditDialogButton = dialogView.findViewById<Button>(R.id.addCreditDialogButton)
 
         addCreditDialogButton.setOnClickListener {
+            val amountText = amountEditText.text.toString()
+            if (amountText.isNotEmpty()) {
+                val amount = amountText.toDouble()
+                addCredit(amount)
+            }
+
             // Close the dialog
             alertDialog.dismiss()
         }
     }
+
+    private fun addCredit(amount: Double) {
+        balance += amount
+        updateBalanceDisplay()
+        Toast.makeText(this, "Added $amount to balance", Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun showWithdrawDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_withdraw, null)
@@ -125,13 +143,32 @@ class HomeActivity : AppCompatActivity() {
             .setTitle("Withdraw")
 
         val alertDialog = builder.show()
+
+        val withdrawAmountEditText = dialogView.findViewById<EditText>(R.id.withdrawAmountEditText)
         val withdrawDialogButton = dialogView.findViewById<Button>(R.id.withdrawDialogButton)
 
         withdrawDialogButton.setOnClickListener {
+            val amountText = withdrawAmountEditText.text.toString()
+            if (amountText.isNotEmpty()) {
+                val amount = amountText.toDouble()
+                withdrawAmount(amount)
+            }
+
             // Close the dialog
             alertDialog.dismiss()
         }
     }
+
+    private fun withdrawAmount(amount: Double) {
+        if (balance >= amount) {
+            balance -= amount
+            updateBalanceDisplay()
+            Toast.makeText(this, "Withdrawn $amount from balance", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Insufficient balance", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     private fun updateRentedTools() {
         rentedToolsList.removeAllViews()
