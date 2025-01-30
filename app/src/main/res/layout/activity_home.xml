@@ -36,7 +36,7 @@
         android:id="@+id/emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/usernameEditText"
+        android:layout_below="@id/usernameEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:textSize="20sp"
@@ -80,12 +80,46 @@
         android:textColor="@color/black"
         />
 
+    <!-- Balance TextView -->
+    <TextView
+        android:id="@+id/balanceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Balance: $0"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_below="@id/editProfileButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Add Credit Button -->
+    <Button
+        android:id="@+id/addCreditButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Credit"
+        android:layout_below="@id/balanceTextView"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"/>
+
+    <!-- Withdraw Button -->
+    <Button
+        android:id="@+id/withdrawButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Withdraw"
+        android:layout_below="@id/balanceTextView"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"/>
+
     <!-- Rented Tools Layout -->
     <LinearLayout
         android:id="@+id/rentedToolsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editProfileButton"
+        android:layout_below="@id/withdrawButton"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:layout_centerHorizontal="true">
@@ -107,8 +141,6 @@
             <!-- Placeholder for rented tools -->
         </LinearLayout>
     </LinearLayout>
-
-
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -146,7 +178,6 @@
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 
     <LinearLayout
         android:id="@+id/bottomNavigationBar"

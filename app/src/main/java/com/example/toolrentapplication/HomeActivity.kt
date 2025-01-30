@@ -1,17 +1,18 @@
 package com.example.toolrentapplication
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat  // <- This is the import statement you need
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
@@ -20,40 +21,51 @@ import java.util.*
 @Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity() {
 
-
     private lateinit var avatarImageView: ImageView
     private lateinit var rentedToolsList: LinearLayout
-
     private lateinit var usernameEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var phoneEditText: EditText
     private lateinit var editProfileButton: MaterialButton
-    private var isEditing = false
     private lateinit var bottomNavigationBar: BottomNavigationView
-    private lateinit var emailRegex : Regex
-    private lateinit var phoneRegex : Regex
+    private lateinit var emailRegex: Regex
+    private lateinit var phoneRegex: Regex
+    private lateinit var balanceTextView: TextView
+    private lateinit var addCreditButton: Button
+    private lateinit var withdrawButton: Button
 
+    private var isEditing = false
+    private var balance: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-
         avatarImageView = findViewById(R.id.avatarImageView)
         rentedToolsList = findViewById(R.id.rentedToolsList)
-
         usernameEditText = findViewById(R.id.usernameEditText)
         emailEditText = findViewById(R.id.emailEditText)
         phoneEditText = findViewById(R.id.phoneEditText)
         editProfileButton = findViewById(R.id.editProfileButton)
-        phoneRegex = Regex("^\\+48 \\d{3} \\d{3} \\d{3}$")
-        emailRegex = Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")
+        balanceTextView = findViewById(R.id.balanceTextView)
+        addCreditButton = findViewById(R.id.addCreditButton)
+        withdrawButton = findViewById(R.id.withdrawButton)
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
 
+        phoneRegex = Regex("^\\+48 \\d{3} \\d{3} \\d{3}$")
+        emailRegex = Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")
         bottomNavigationBar.selectedItemId = R.id.item_1
 
-        editProfileButton.setOnClickListener{
+        editProfileButton.setOnClickListener {
             profileEdit()
+        }
+
+        addCreditButton.setOnClickListener {
+            showAddCreditDialog()
+        }
+
+        withdrawButton.setOnClickListener {
+            showWithdrawDialog()
         }
 
         bottomNavigationBar.setOnNavigationItemSelectedListener { menuItem ->
@@ -77,7 +89,7 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.item_4 -> {
-                    // Navigate to Calendar Activity
+                    // Navigate to CalendarActivity
                     val intent = Intent(this, CalendarActivity::class.java)
                     startActivity(intent)
                     true
@@ -86,82 +98,40 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-
         // Populate rented tools with sample data
         updateRentedTools()
+        updateBalanceDisplay()
     }
 
-    fun onUploadAvatarClick(view: View) {
-        // Code to handle avatar upload
-        //code to test the function
-        Toast.makeText(this, "Avatar uploaded!", Toast.LENGTH_SHORT).show()
-    }
+    private fun showAddCreditDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_credit, null)
+        val builder = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setTitle("Add Credit")
 
-    fun profileEdit() {
-        if (isEditing) {
-            // Save mode
-            val username = usernameEditText.text.toString().trim()
-            val email = emailEditText.text.toString().trim()
-            val phone = phoneEditText.text.toString().trim()
+        val alertDialog = builder.show()
+        val addCreditDialogButton = dialogView.findViewById<Button>(R.id.addCreditDialogButton)
 
-            if (username.isEmpty() || email.isEmpty() || phone.isEmpty()) {
-                Toast.makeText(this, "All fields must be filled out.", Toast.LENGTH_SHORT).show()
-            } else if (username.length < 6) {
-                // Check if username is at least 6 characters long
-                Toast.makeText(this, "Username must be at least 6 characters long.", Toast.LENGTH_SHORT).show()
-            } else if (!email.matches(emailRegex)) {
-                // Check if email format is valid
-                Toast.makeText(this, "Invalid email format.", Toast.LENGTH_SHORT).show()
-            }else if (!phone.matches(phoneRegex)) {
-                // Check if phone format is valid
-                Toast.makeText(this, "Phone number must be in the format +48 xxx xxx xxx.", Toast.LENGTH_SHORT).show()
-            }  else {
-                // Save the changes
-                usernameEditText.isEnabled = false
-                emailEditText.isEnabled = false
-                phoneEditText.isEnabled = false
-
-                editProfileButton.text = "Edit Profile"
-                isEditing = false
-
-                //setting back to normal colors
-                usernameEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
-                emailEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
-                phoneEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
-
-                //setting back to normal colors
-                usernameEditText.setTextColor(ContextCompat.getColor(this, R.color.black))
-                emailEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
-                phoneEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
-
-                // Show success message
-                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            // Enable editing
-            usernameEditText.isEnabled = true
-            emailEditText.isEnabled = true
-            phoneEditText.isEnabled = true
-
-            //setting background colors
-            usernameEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
-            emailEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
-            phoneEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
-
-            //editing hint color
-            usernameEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
-            emailEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
-            phoneEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
-
-            usernameEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
-            emailEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
-            phoneEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
-
-            editProfileButton.text = "Save"
-            isEditing = true
+        addCreditDialogButton.setOnClickListener {
+            // Close the dialog
+            alertDialog.dismiss()
         }
     }
 
+    private fun showWithdrawDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_withdraw, null)
+        val builder = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setTitle("Withdraw")
+
+        val alertDialog = builder.show()
+        val withdrawDialogButton = dialogView.findViewById<Button>(R.id.withdrawDialogButton)
+
+        withdrawDialogButton.setOnClickListener {
+            // Close the dialog
+            alertDialog.dismiss()
+        }
+    }
 
     private fun updateRentedTools() {
         rentedToolsList.removeAllViews()
@@ -208,6 +178,74 @@ class HomeActivity : AppCompatActivity() {
 
                 rentedToolsList.addView(toolItemLayout)
             }
+        }
+    }
+
+    private fun updateBalanceDisplay() {
+        balanceTextView.text = "Balance: $$balance"
+    }
+
+    fun onUploadAvatarClick(view: View) {
+        // Code to handle avatar upload
+        Toast.makeText(this, "Avatar uploaded!", Toast.LENGTH_SHORT).show()
+    }
+
+    fun profileEdit() {
+        if (isEditing) {
+            // Save mode
+            val username = usernameEditText.text.toString().trim()
+            val email = emailEditText.text.toString().trim()
+            val phone = phoneEditText.text.toString().trim()
+
+            if (username.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(this, "All fields must be filled out.", Toast.LENGTH_SHORT).show()
+            } else if (username.length < 6) {
+                Toast.makeText(this, "Username must be at least 6 characters long.", Toast.LENGTH_SHORT).show()
+            } else if (!email.matches(emailRegex)) {
+                Toast.makeText(this, "Invalid email format.", Toast.LENGTH_SHORT).show()
+            } else if (!phone.matches(phoneRegex)) {
+                Toast.makeText(this, "Phone number must be in the format +48 xxx xxx xxx.", Toast.LENGTH_SHORT).show()
+            } else {
+                // Save the changes
+                usernameEditText.isEnabled = false
+                emailEditText.isEnabled = false
+                phoneEditText.isEnabled = false
+
+                editProfileButton.text = "Edit Profile"
+                isEditing = false
+
+                // Setting back to normal colors
+                usernameEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
+                emailEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
+                phoneEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
+
+                usernameEditText.setTextColor(ContextCompat.getColor(this, R.color.black))
+                emailEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
+                phoneEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
+
+                Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            // Enable editing
+            usernameEditText.isEnabled = true
+            emailEditText.isEnabled = true
+            phoneEditText.isEnabled = true
+
+            // Setting background colors
+            usernameEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
+            emailEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
+            phoneEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
+
+            usernameEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
+            emailEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
+            phoneEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
+
+            usernameEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
+            emailEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
+            phoneEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
+
+            editProfileButton.text = "Save"
+            isEditing = true
         }
     }
 
