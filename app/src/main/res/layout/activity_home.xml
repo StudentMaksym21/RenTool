@@ -150,18 +150,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
-        android:layout_above="@id/bottomNavigationBar"
-        android:onClick="onLogoutClick">
+        android:layout_above="@id/bottomNavigationBar" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="12dp" >
+            android:padding="12dp"
+            android:onClick="onLogoutClick">
 
             <ImageView
                 android:layout_width="24dp"
@@ -175,6 +176,32 @@
                 android:layout_weight="1"
                 android:paddingStart="16dp"
                 android:text="@string/logout"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:layout_gravity="end"
+            android:onClick="onMessageClick">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/chat" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:text="Message Us"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
