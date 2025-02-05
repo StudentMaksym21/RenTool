@@ -5,16 +5,27 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/withdrawAmountEditText"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Amount"
-        android:inputType="numberDecimal" />
+        android:layout_height="wrap_content" >
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/withdrawAmountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
+            android:hint="Amount"
+            android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/withdrawDialogButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Withdraw" />
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:text="Withdraw"
+        android:textColor="@color/black"
+        />
 </LinearLayout>

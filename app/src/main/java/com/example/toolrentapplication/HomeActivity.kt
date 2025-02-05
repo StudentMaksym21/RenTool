@@ -1,8 +1,10 @@
 package com.example.toolrentapplication
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -12,9 +14,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.Snackbar
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -290,5 +294,44 @@ class HomeActivity : AppCompatActivity() {
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    fun onMessageClick(view: View) {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_message, null)
+        val builder = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setTitle("Send Message")
+
+        val alertDialog = builder.show()
+
+        // Get references to views in the dialog
+        val emailLayout = dialogView.findViewById<TextInputLayout>(R.id.emailInputLayout)
+        val messageLayout = dialogView.findViewById<TextInputLayout>(R.id.messageInputLayout)
+        val sendButton = dialogView.findViewById< MaterialButton>(R.id.sendButton)
+
+        val emailinput = emailLayout?.editText
+        val messageinput = messageLayout?.editText
+
+        sendButton?.setOnClickListener {
+            val email = emailinput?.text?.toString() ?: ""
+            val message = messageinput?.text?.toString() ?: ""
+            if (email.isNotEmpty() && message.isNotEmpty()) {
+                try{
+                    Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show()
+                    alertDialog.dismiss()
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Error sending message: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+
+            } else {
+                when {
+                    email.isEmpty() && message.isEmpty() -> "Please fill in both email and message"
+                    email.isEmpty() -> "Please enter your email"
+                    else -> "Please enter your message"
+                }.let { errorMessage ->
+                    Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }
