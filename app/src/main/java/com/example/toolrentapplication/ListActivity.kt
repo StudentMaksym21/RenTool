@@ -3,12 +3,10 @@ package com.example.toolrentapplication
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
@@ -18,7 +16,6 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.search.SearchBar
 
-@Suppress("DEPRECATION")
 class ListActivity : AppCompatActivity() {
 
     private lateinit var toolsAvailableLayout: LinearLayout
@@ -39,10 +36,6 @@ class ListActivity : AppCompatActivity() {
         val addItemButton: Button = findViewById(R.id.addItemButton)
         val cleanButton: Button = findViewById(R.id.cleanButton)
         val filterButton: Button = findViewById(R.id.filterButton)
-        val searchEditText: EditText = findViewById(R.id.searchEditText)
-
-        //val searchBar: SearchBar = findViewById(R.id.searchBar)
-        //val searchBarEditText: EditText = searchBar.findViewById(com.google.android.material.R.id.search_src_text)
 
         toolsAvailableLayout = findViewById(R.id.toolsAvailableLayout)
 
@@ -52,25 +45,21 @@ class ListActivity : AppCompatActivity() {
         bottomNavigationBar.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.item_1 -> {
-                    // Navigate to HomeActivity
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.item_2 -> {
-                    // Navigate to MapsActivity
                     val intent = Intent(this, MapsActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.item_3 -> {
-                    // Navigate to ListActivity
                     val intent = Intent(this, ListActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.item_4 -> {
-                    // Navigate to Calendar Activity
                     val intent = Intent(this, CalendarActivity::class.java)
                     startActivity(intent)
                     true
@@ -98,6 +87,12 @@ class ListActivity : AppCompatActivity() {
         updateToolList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Ensure tool list is refreshed whenever the activity resumes
+        updateToolList()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ADD_ITEM_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -107,7 +102,7 @@ class ListActivity : AppCompatActivity() {
             if (name != null && description != null && price != null) {
                 val tool = "$name - $description - $$price"
                 toolList.add(tool)
-                println("Added tool: $tool") // Log the added tool for debugging
+                println("Added tool: $tool")
                 updateToolList()
             }
         } else if (requestCode == RENT_TOOL_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -122,11 +117,14 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-
     private fun showFilterDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_filter, null)
         val priceSeekBar: SeekBar = dialogView.findViewById(R.id.priceSeekBar)
         val priceRangeTextView: TextView = dialogView.findViewById(R.id.priceRangeTextView)
+        val locationSeekBar: SeekBar = dialogView.findViewById(R.id.locationSeekBar)
+        val locationRangeTextView: TextView = dialogView.findViewById(R.id.locationRangeTextView)
+        val conditionSeekBar: SeekBar = dialogView.findViewById(R.id.conditionSeekBar)
+        val conditionRangeTextView: TextView = dialogView.findViewById(R.id.conditionRangeTextView)
         val searchButton: Button = dialogView.findViewById(R.id.searchButton)
 
         val dialog = AlertDialog.Builder(this)
@@ -135,8 +133,27 @@ class ListActivity : AppCompatActivity() {
 
         priceSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                priceRangeTextView.text = "Up to $$progress"
+                priceRangeTextView.text = "Up to $$progress/day"
             }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        locationSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                locationRangeTextView.text = "Up to $progress km"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        conditionSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                conditionRangeTextView.text = "Condition: $progress%"
+            }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
@@ -150,37 +167,28 @@ class ListActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
-
-
     private fun filterTools(maxPrice: Int) {
         val priceRegex = Regex("""\$(\d+)""")
         val filteredList = toolList.filter { tool ->
             val toolPrice = priceRegex.find(tool)?.groupValues?.get(1)?.toIntOrNull()
             val isSuitable = toolPrice != null && toolPrice <= maxPrice
-            println("Tool: $tool, Extracted Price: $toolPrice, Suitable: $isSuitable") // Log for debugging
+            println("Tool: $tool, Extracted Price: $toolPrice, Suitable: $isSuitable")
             isSuitable
         }
 
         updateToolList(filteredList)
     }
 
-
-
-
-
-
-
     private fun addToolItem(name: String, description: String, price: String) {
         val toolItemLayout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(8, 8, 8, 8)
-            setBackgroundColor(ContextCompat.getColor(this@ListActivity, android.R.color.darker_gray))
+            setPadding(16, 16, 16, 16)
+            background = ContextCompat.getDrawable(this@ListActivity, R.drawable.tool_item_background)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                setMargins(0, 0, 0, 16)
+                setMargins(8, 8, 8, 8)
             }
         }
 
@@ -193,7 +201,7 @@ class ListActivity : AppCompatActivity() {
         val descriptionTextView = TextView(this).apply {
             text = description
             setTypeface(null, android.graphics.Typeface.NORMAL)
-            setPadding(0, 4, 0, 4)
+            setPadding(0, 8, 0, 8)
         }
 
         val priceTextView = TextView(this).apply {
@@ -202,7 +210,8 @@ class ListActivity : AppCompatActivity() {
 
         val rentButton = Button(this).apply {
             text = "Rent"
-            setPadding(16, 0, 0, 0)
+            setPadding(16, 0, 16, 0)
+            background = ContextCompat.getDrawable(this@ListActivity, R.drawable.rounded_button)
             setOnClickListener {
                 val intent = Intent(this@ListActivity, RentActivity::class.java).apply {
                     putExtra("toolName", name)
@@ -238,5 +247,5 @@ class ListActivity : AppCompatActivity() {
 
     private fun populateAvailableTools() {
         // Initial sample data (if any)
-    }
-}
+    }}
+

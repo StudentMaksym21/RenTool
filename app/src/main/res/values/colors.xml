@@ -13,6 +13,9 @@
     <color name="grey">#808080</color>"
     <color name="light_grey">#E0E0E0</color>"
     <color name="transparent">#00000000</color>"
+    <color name="super_light_blue">#E0F7FA</color>
+    <color name="yellow">#FFEB3B</color>
+
 </resources>
 
 

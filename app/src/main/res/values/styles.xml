@@ -1,8 +1,16 @@
 <resources>
-    <!-- Other styles can go here if needed -->
     <style name="roundedImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item> <!-- Makes the image fully circular -->
 </style>
+
+    <style name="HighlightedDateAppearance">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:background">@drawable/highlighted_date_background</item>
+    </style>
+    <style name="CalendarDateAppearance">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 
 </resources>
