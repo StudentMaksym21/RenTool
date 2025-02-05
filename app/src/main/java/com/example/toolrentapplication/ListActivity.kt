@@ -41,7 +41,7 @@ class ListActivity : AppCompatActivity() {
         val filterButton: Button = findViewById(R.id.filterButton)
         val searchEditText: EditText = findViewById(R.id.searchEditText)
 
-        //val searchBar: SearchBar = findViewById(R.id.searchBar)
+        val searchBar: SearchBar = findViewById(R.id.searchBar)
         //val searchBarEditText: EditText = searchBar.findViewById(com.google.android.material.R.id.search_src_text)
 
         toolsAvailableLayout = findViewById(R.id.toolsAvailableLayout)
@@ -78,6 +78,8 @@ class ListActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        TODO("SEARCH BAR IMPLEMENTATION")
 
         addItemButton.setOnClickListener {
             val intent = Intent(this, AddItemActivity::class.java)
