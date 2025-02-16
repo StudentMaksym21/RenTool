@@ -52,8 +52,6 @@
 
     </LinearLayout>
 
-
-
     <!-- Clean Button -->
     <Button
         android:id="@+id/cleanButton"

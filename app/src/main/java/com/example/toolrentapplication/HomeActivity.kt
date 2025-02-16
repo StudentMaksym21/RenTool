@@ -1,8 +1,8 @@
 package com.example.toolrentapplication
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Layout
 import android.view.LayoutInflater
@@ -15,16 +15,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Snackbar
-import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
+import android.graphics.Color
+import androidx.core.content.ContextCompat
 
 @Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity() {
-
     private lateinit var avatarImageView: ImageView
     private lateinit var rentedToolsList: LinearLayout
     private lateinit var usernameEditText: EditText
@@ -37,7 +37,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var balanceTextView: TextView
     private lateinit var addCreditButton: Button
     private lateinit var withdrawButton: Button
-
+    private lateinit var sharedPreferences: SharedPreferences
     private var isEditing = false
     private var balance: Double = 0.0
 
@@ -56,8 +56,12 @@ class HomeActivity : AppCompatActivity() {
         withdrawButton = findViewById(R.id.withdrawButton)
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
 
+        sharedPreferences = getSharedPreferences("com.example.toolrentapplication", MODE_PRIVATE)
+        balance = sharedPreferences.getFloat("balance", 0.0f).toDouble()
+
         phoneRegex = Regex("^\\+48 \\d{3} \\d{3} \\d{3}$")
         emailRegex = Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")
+
         bottomNavigationBar.selectedItemId = R.id.item_1
 
         editProfileButton.setOnClickListener {
@@ -112,7 +116,6 @@ class HomeActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
             .setView(dialogView)
             .setTitle("Add Credit")
-
         val alertDialog = builder.show()
 
         val cardNumberEditText = dialogView.findViewById<EditText>(R.id.cardNumberEditText)
@@ -127,7 +130,6 @@ class HomeActivity : AppCompatActivity() {
                 val amount = amountText.toDouble()
                 addCredit(amount)
             }
-
             // Close the dialog
             alertDialog.dismiss()
         }
@@ -135,17 +137,16 @@ class HomeActivity : AppCompatActivity() {
 
     private fun addCredit(amount: Double) {
         balance += amount
+        sharedPreferences.edit().putFloat("balance", balance.toFloat()).apply()
         updateBalanceDisplay()
         Toast.makeText(this, "Added $amount to balance", Toast.LENGTH_SHORT).show()
     }
-
 
     private fun showWithdrawDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_withdraw, null)
         val builder = AlertDialog.Builder(this)
             .setView(dialogView)
             .setTitle("Withdraw")
-
         val alertDialog = builder.show()
 
         val withdrawAmountEditText = dialogView.findViewById<EditText>(R.id.withdrawAmountEditText)
@@ -157,7 +158,6 @@ class HomeActivity : AppCompatActivity() {
                 val amount = amountText.toDouble()
                 withdrawAmount(amount)
             }
-
             // Close the dialog
             alertDialog.dismiss()
         }
@@ -166,6 +166,7 @@ class HomeActivity : AppCompatActivity() {
     private fun withdrawAmount(amount: Double) {
         if (balance >= amount) {
             balance -= amount
+            sharedPreferences.edit().putFloat("balance", balance.toFloat()).apply()
             updateBalanceDisplay()
             Toast.makeText(this, "Withdrawn $amount from balance", Toast.LENGTH_SHORT).show()
         } else {
@@ -173,12 +174,10 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-
     private fun updateRentedTools() {
         rentedToolsList.removeAllViews()
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val currentDate = Date()
-
         for ((index, rentedTool) in ListActivity.rentedToolList.withIndex()) {
             val parts = rentedTool.split(" - From: ", " To: ", " - Total: $")
             if (parts.size == 4) {
@@ -186,11 +185,10 @@ class HomeActivity : AppCompatActivity() {
                 val endDateStr = parts[2]
                 val endDate = dateFormat.parse(endDateStr)
                 val remainingDays = ((endDate.time - currentDate.time) / (1000 * 60 * 60 * 24)).toInt()
-
                 val toolItemLayout = LinearLayout(this).apply {
                     orientation = LinearLayout.VERTICAL
                     setPadding(8, 8, 8, 8)
-                    setBackgroundColor(ContextCompat.getColor(this@HomeActivity, android.R.color.darker_gray))
+                    setBackgroundResource(R.drawable.tool_item_background) // Apply background drawable
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -198,25 +196,23 @@ class HomeActivity : AppCompatActivity() {
                         setMargins(0, 0, 0, 16)
                     }
                 }
-
                 val toolTextView = TextView(this).apply {
                     text = "$toolName - Remaining Days: $remainingDays"
                     textSize = 16f
                     setPadding(8, 8, 8, 8)
                 }
-
                 val returnButton = Button(this).apply {
                     text = "Return Early"
-                    setPadding(16, 0, 0, 0)
+                    setPadding(16, 0, 16, 0)
+                    setTextColor(Color.WHITE)
+                    background = ContextCompat.getDrawable(this@HomeActivity, R.drawable.rounded_button_background) // Set the new drawable as background
                     setOnClickListener {
                         ListActivity.rentedToolList.removeAt(index)
                         updateRentedTools()
                     }
                 }
-
                 toolItemLayout.addView(toolTextView)
                 toolItemLayout.addView(returnButton)
-
                 rentedToolsList.addView(toolItemLayout)
             }
         }
@@ -237,7 +233,6 @@ class HomeActivity : AppCompatActivity() {
             val username = usernameEditText.text.toString().trim()
             val email = emailEditText.text.toString().trim()
             val phone = phoneEditText.text.toString().trim()
-
             if (username.isEmpty() || email.isEmpty() || phone.isEmpty()) {
                 Toast.makeText(this, "All fields must be filled out.", Toast.LENGTH_SHORT).show()
             } else if (username.length < 6) {
@@ -251,19 +246,15 @@ class HomeActivity : AppCompatActivity() {
                 usernameEditText.isEnabled = false
                 emailEditText.isEnabled = false
                 phoneEditText.isEnabled = false
-
                 editProfileButton.text = "Edit Profile"
                 isEditing = false
-
                 // Setting back to normal colors
                 usernameEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
                 emailEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
                 phoneEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent))
-
                 usernameEditText.setTextColor(ContextCompat.getColor(this, R.color.black))
                 emailEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
                 phoneEditText.setTextColor(ContextCompat.getColor(this, R.color.grey))
-
                 Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
             }
         } else {
@@ -271,20 +262,16 @@ class HomeActivity : AppCompatActivity() {
             usernameEditText.isEnabled = true
             emailEditText.isEnabled = true
             phoneEditText.isEnabled = true
-
             // Setting background colors
             usernameEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
             emailEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
             phoneEditText.setBackgroundColor(ContextCompat.getColor(this, R.color.light_grey))
-
             usernameEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
             emailEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
             phoneEditText.setHintTextColor(ContextCompat.getColor(this, R.color.red))
-
             usernameEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
             emailEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
             phoneEditText.setTextColor(ContextCompat.getColor(this, R.color.red))
-
             editProfileButton.text = "Save"
             isEditing = true
         }
@@ -301,28 +288,23 @@ class HomeActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
             .setView(dialogView)
             .setTitle("Send Message")
-
         val alertDialog = builder.show()
-
         // Get references to views in the dialog
         val emailLayout = dialogView.findViewById<TextInputLayout>(R.id.emailInputLayout)
         val messageLayout = dialogView.findViewById<TextInputLayout>(R.id.messageInputLayout)
-        val sendButton = dialogView.findViewById< MaterialButton>(R.id.sendButton)
-
+        val sendButton = dialogView.findViewById<MaterialButton>(R.id.sendButton)
         val emailinput = emailLayout?.editText
         val messageinput = messageLayout?.editText
-
         sendButton?.setOnClickListener {
             val email = emailinput?.text?.toString() ?: ""
             val message = messageinput?.text?.toString() ?: ""
             if (email.isNotEmpty() && message.isNotEmpty()) {
-                try{
+                try {
                     Toast.makeText(this, "Message sent!", Toast.LENGTH_SHORT).show()
                     alertDialog.dismiss()
                 } catch (e: Exception) {
                     Toast.makeText(this, "Error sending message: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
-
             } else {
                 when {
                     email.isEmpty() && message.isEmpty() -> "Please fill in both email and message"

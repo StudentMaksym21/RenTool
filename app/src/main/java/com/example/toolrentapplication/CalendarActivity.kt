@@ -1,13 +1,14 @@
 package com.example.toolrentapplication
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -15,6 +16,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Suppress("DEPRECATION")
 class CalendarActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -68,12 +71,6 @@ class CalendarActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        // Set a listener to handle date selection
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val date = "$dayOfMonth/${month + 1}/$year"
-            Toast.makeText(this, "Selected date: $date", Toast.LENGTH_SHORT).show()
-        }
-
         // Update the tools rented list
         updateRentedToolList()
 
@@ -113,18 +110,45 @@ class CalendarActivity : AppCompatActivity(), OnMapReadyCallback {
         googleMap.addMarker(MarkerOptions().position(samp2).title(""))
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sampleLocation, 10f))
-
     }
 
     private fun updateRentedToolList() {
         toolsRentedLayout.removeAllViews()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val returnDates = mutableListOf<Calendar>()
+
         for (rentedTool in ListActivity.rentedToolList) {
-            val textView = TextView(this).apply {
-                text = rentedTool
-                textSize = 16f
-                setPadding(8, 8, 8, 8)
+            val parts = rentedTool.split(" - From: ", " To: ", " - Total: $")
+            if (parts.size == 4) {
+                val endDateStr = parts[2]
+                val endDate = dateFormat.parse(endDateStr)
+                val calendar = Calendar.getInstance()
+                calendar.time = endDate
+                returnDates.add(calendar)
+
+                val textView = TextView(this).apply {
+                    text = rentedTool
+                    textSize = 16f
+                    setPadding(8, 8, 8, 8)
+                }
+                toolsRentedLayout.addView(textView)
             }
-            toolsRentedLayout.addView(textView)
+        }
+        highlightDates(returnDates)
+    }
+
+    private fun highlightDates(dates: List<Calendar>) {
+        val calendarViewGroup = calendarView.getChildAt(0) as ViewGroup
+        for (date in dates) {
+            val dayText = date.get(Calendar.DAY_OF_MONTH).toString()
+            for (i in 0 until calendarViewGroup.childCount) {
+                val dayView = calendarViewGroup.getChildAt(i) as? TextView ?: continue
+                if (dayView.text == dayText) {
+                    dayView.setBackgroundResource(R.drawable.circle_background)
+                    dayView.setTextColor(Color.WHITE)
+                    dayView.setTypeface(null, Typeface.BOLD)
+                }
+            }
         }
     }
 }

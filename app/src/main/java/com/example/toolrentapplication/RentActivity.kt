@@ -47,6 +47,7 @@ class RentActivity : AppCompatActivity() {
                 endDate = selectedDate.time
                 selectedDates.add(selectedDate.timeInMillis)
                 isStartDateSelected = false
+                calculatePrice() // Calculate price when both dates are selected
             }
             highlightSelectedDates()
         }
@@ -57,7 +58,13 @@ class RentActivity : AppCompatActivity() {
                 val startDateStr = dateFormat.format(startDate)
                 val endDateStr = dateFormat.format(endDate)
                 val totalDays = ((endDate.time - startDate.time) / (1000 * 60 * 60 * 24)).toInt() + 1
-                val totalPrice = totalDays * toolPrice.toInt()
+
+                val totalPrice = try {
+                    totalDays * toolPrice.replace("$", "").toInt()
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(this, "Invalid price format", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
                 val resultIntent = Intent().apply {
                     putExtra("toolName", toolName)
@@ -92,7 +99,14 @@ class RentActivity : AppCompatActivity() {
         val startDateStr = dateFormat.format(startDate)
         val endDateStr = dateFormat.format(endDate)
         val totalDays = ((endDate.time - startDate.time) / (1000 * 60 * 60 * 24)).toInt() + 1
-        val totalPrice = totalDays * toolPrice.toInt()
+
+        val totalPrice = try {
+            totalDays * toolPrice.replace("$", "").toInt()
+        } catch (e: NumberFormatException) {
+            Toast.makeText(this, "Invalid price format", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         priceTextView.text = "Rent from $startDateStr to $endDateStr\nTotal Price: $$totalPrice"
     }
 }

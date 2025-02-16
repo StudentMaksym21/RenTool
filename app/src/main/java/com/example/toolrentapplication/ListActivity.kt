@@ -3,20 +3,18 @@ package com.example.toolrentapplication
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.SearchView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.search.SearchBar
+import android.view.LayoutInflater
+import android.graphics.Color
 
 @Suppress("DEPRECATION")
 class ListActivity : AppCompatActivity() {
@@ -24,7 +22,6 @@ class ListActivity : AppCompatActivity() {
     private lateinit var toolsAvailableLayout: LinearLayout
     private val ADD_ITEM_REQUEST_CODE = 1
     private val RENT_TOOL_REQUEST_CODE = 2
-
     private lateinit var bottomNavigationBar: BottomNavigationView
 
     companion object {
@@ -40,37 +37,42 @@ class ListActivity : AppCompatActivity() {
         val cleanButton: Button = findViewById(R.id.cleanButton)
         val filterButton: Button = findViewById(R.id.filterButton)
         val searchEditText: EditText = findViewById(R.id.searchEditText)
+        val searchBar: SearchView = findViewById(R.id.searchBar)
 
-        val searchBar: SearchBar = findViewById(R.id.searchBar)
-        //val searchBarEditText: EditText = searchBar.findViewById(com.google.android.material.R.id.search_src_text)
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Handle search query submission
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Handle search text change
+                return false
+            }
+        })
 
         toolsAvailableLayout = findViewById(R.id.toolsAvailableLayout)
-
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
         bottomNavigationBar.selectedItemId = R.id.item_3
 
         bottomNavigationBar.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.item_1 -> {
-                    // Navigate to HomeActivity
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.item_2 -> {
-                    // Navigate to MapsActivity
                     val intent = Intent(this, MapsActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.item_3 -> {
-                    // Navigate to ListActivity
                     val intent = Intent(this, ListActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.item_4 -> {
-                    // Navigate to Calendar Activity
                     val intent = Intent(this, CalendarActivity::class.java)
                     startActivity(intent)
                     true
@@ -78,8 +80,6 @@ class ListActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        TODO("SEARCH BAR IMPLEMENTATION")
 
         addItemButton.setOnClickListener {
             val intent = Intent(this, AddItemActivity::class.java)
@@ -95,7 +95,6 @@ class ListActivity : AppCompatActivity() {
             showFilterDialog()
         }
 
-        // Populate tools available for rent
         populateAvailableTools()
         updateToolList()
     }
@@ -109,7 +108,6 @@ class ListActivity : AppCompatActivity() {
             if (name != null && description != null && price != null) {
                 val tool = "$name - $description - $$price"
                 toolList.add(tool)
-                println("Added tool: $tool") // Log the added tool for debugging
                 updateToolList()
             }
         } else if (requestCode == RENT_TOOL_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -120,10 +118,11 @@ class ListActivity : AppCompatActivity() {
             if (toolName != null && startDate != null && endDate != null && totalPrice != null) {
                 val rentedTool = "$toolName - From: $startDate To: $endDate - Total: $$totalPrice"
                 rentedToolList.add(rentedTool)
+                toolList.removeAll { it.startsWith(toolName) } // Ensure only the correct tool is removed
+                updateToolList()
             }
         }
     }
-
 
     private fun showFilterDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_filter, null)
@@ -139,6 +138,7 @@ class ListActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 priceRangeTextView.text = "Up to $$progress"
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
@@ -152,32 +152,21 @@ class ListActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
-
-
     private fun filterTools(maxPrice: Int) {
         val priceRegex = Regex("""\$(\d+)""")
         val filteredList = toolList.filter { tool ->
             val toolPrice = priceRegex.find(tool)?.groupValues?.get(1)?.toIntOrNull()
             val isSuitable = toolPrice != null && toolPrice <= maxPrice
-            println("Tool: $tool, Extracted Price: $toolPrice, Suitable: $isSuitable") // Log for debugging
             isSuitable
         }
-
         updateToolList(filteredList)
     }
-
-
-
-
-
-
 
     private fun addToolItem(name: String, description: String, price: String) {
         val toolItemLayout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(8, 8, 8, 8)
-            setBackgroundColor(ContextCompat.getColor(this@ListActivity, android.R.color.darker_gray))
+            setBackgroundResource(R.drawable.tool_item_background) // Apply background drawable
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -204,7 +193,9 @@ class ListActivity : AppCompatActivity() {
 
         val rentButton = Button(this).apply {
             text = "Rent"
-            setPadding(16, 0, 0, 0)
+            setPadding(16, 0, 16, 0)
+            setTextColor(Color.WHITE) // Set text color to white
+            background = ContextCompat.getDrawable(this@ListActivity, R.drawable.rounded_button_background) // Set the new drawable as background
             setOnClickListener {
                 val intent = Intent(this@ListActivity, RentActivity::class.java).apply {
                     putExtra("toolName", name)
